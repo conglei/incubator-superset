@@ -4,6 +4,7 @@ import { Alert, Button, ButtonGroup, ProgressBar } from 'react-bootstrap';
 import shortid from 'shortid';
 
 import VisualizeModal from './VisualizeModal';
+import PlayGround from './PlayGround';
 import HighlightedSql from './HighlightedSql';
 import FilterableTable from '../../components/FilterableTable/FilterableTable';
 import QueryStateLabel from './QueryStateLabel';
@@ -16,6 +17,7 @@ const propTypes = {
   search: PropTypes.bool,
   showSql: PropTypes.bool,
   visualize: PropTypes.bool,
+  playground: PropTypes.bool,
   cache: PropTypes.bool,
   height: PropTypes.number.isRequired,
 };
@@ -24,6 +26,7 @@ const defaultProps = {
   visualize: true,
   showSql: false,
   csv: true,
+  playground: true,
   actions: {},
   cache: false,
 };
@@ -36,6 +39,7 @@ export default class ResultSet extends React.PureComponent {
     this.state = {
       searchText: '',
       showModal: false,
+      showPlayGroundModal: false,
       data: null,
     };
   }
@@ -79,6 +83,17 @@ export default class ResultSet extends React.PureComponent {
           </Button>
         );
       }
+      let playgroundButton;
+      if (this.props.playground) {
+        playgroundButton = (
+          <Button
+            bsSize="small"
+            onClick={this.showPlayGroundModal.bind(this)}
+          >
+            <i className="fa fa-line-chart m-l-1" /> {t('Playground')}
+          </Button>
+        );
+      }
       let searchBox;
       if (this.props.search) {
         searchBox = (
@@ -97,6 +112,7 @@ export default class ResultSet extends React.PureComponent {
               <ButtonGroup>
                 {visualizeButton}
                 {csvButton}
+                {playgroundButton}
               </ButtonGroup>
             </div>
             <div className="pull-right">
@@ -127,6 +143,14 @@ export default class ResultSet extends React.PureComponent {
   hideModal() {
     this.setState({ showModal: false });
   }
+
+  showPlayGroundModal() {
+    this.setState({ showPlayGroundModal: true });
+  }
+  hidePlayGroundModal() {
+    this.setState({ showPlayGroundModal: false });
+  }
+
   changeSearch(event) {
     this.setState({ searchText: event.target.value });
   }
@@ -191,6 +215,13 @@ export default class ResultSet extends React.PureComponent {
               query={this.props.query}
               onHide={this.hideModal.bind(this)}
             />
+
+            <PlayGround
+              data={data}
+              show={this.state.showPlayGroundModal}
+              onHide={this.hidePlayGroundModal.bind(this)}
+            />
+
             {this.getControls.bind(this)()}
             {sql}
             <FilterableTable
