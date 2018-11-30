@@ -182,7 +182,7 @@ export function runQuery(formData, force = false, timeout = 60, key) {
 
     let querySettings = {
       url,
-      postPayload: { form_data: payload },
+      postPayload: { ...payload },
       signal,
       timeout: timeout * 1000,
     };
