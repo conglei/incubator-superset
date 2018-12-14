@@ -218,7 +218,6 @@ class BaseViz(object):
         query_obj.update({
             'metrics': formatted_metrics,
         })
-        
 
         self.error_msg = ''
 
