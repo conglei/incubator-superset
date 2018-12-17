@@ -2134,7 +2134,7 @@ class BaseDeckGLViz(BaseViz):
         self.metric = self.form_data.get('size')
         return [self.metric] if self.metric else []
 
-    def process_spatial__query_obj(self, key, group_by):
+    def process_spatial_query_obj(self, key, group_by):
         group_by.extend(self.get_spatial_columns(key))
 
     def get_spatial_columns(self, key):
@@ -2232,7 +2232,7 @@ class BaseDeckGLViz(BaseViz):
         gb = []
 
         for key in self.spatial_control_keys:
-            self.process_spatial__query_obj(key, gb)
+            self.process_spatial_query_obj(key, gb)
 
         if fd.get('dimension'):
             gb += [fd.get('dimension')]
